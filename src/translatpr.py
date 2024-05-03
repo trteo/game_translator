@@ -1,10 +1,10 @@
 import requests
 import toml
+from typing import Dict
 
 from settings.config import settings
 
-
-def translate_text(text, target_lang):
+def translate_text(text: str, target_lang: str) -> str:
     url = "https://api-free.deepl.com/v2/translate"
     params = {
         "auth_key": settings.DEEPL_API_KEY,
@@ -17,8 +17,7 @@ def translate_text(text, target_lang):
     else:
         return f"Translation failed with status code {response.status_code}"
 
-
-def translate_and_save_to_toml(data, languages, file_path):
+def translate_and_save_to_toml(data: Dict[str, str], languages: Dict[str, str], file_path: str) -> None:
     translations = {}
     for key, value in data.items():
         translations[key] = {}
@@ -28,10 +27,9 @@ def translate_and_save_to_toml(data, languages, file_path):
     with open(file_path, "a", encoding="utf-8") as toml_file:
         toml.dump(translations, toml_file)
 
-
 if __name__ == "__main__":
     # Define your data
-    data = {
+    data: Dict[str, str] = {
         "apple": "ROTTING APPLE",
         "banana": "BANANA PEEL",
         "chicken": "GNAWED CHICKEN",
@@ -40,7 +38,7 @@ if __name__ == "__main__":
     }
 
     # Define languages
-    languages = {
+    languages: Dict[str, str] = {
         "EN-US": "eng",
         "UK": "ukr",
         "ES": "spa",
