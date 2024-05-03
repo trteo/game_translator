@@ -1,10 +1,9 @@
 from pathlib import Path
-
 import requests
 import toml
 from typing import Dict
 
-from models.languges import (
+from models.languages import (
     SOURCE_FILE_2_DEEPL_MAP,
     SourceLangsCodes,
     DEEPL_2_SOURCE_FILE_MAP,
@@ -12,66 +11,58 @@ from models.languges import (
 from settings.config import settings, BASE_DIR
 
 
-SOURCE_DIR = BASE_DIR / 'data' / 'source'
-RESULT_DIR = BASE_DIR / 'data' / 'result'
+class TranslationService:
+    _source_dir = BASE_DIR / 'data' / 'source'
+    _result_dir = BASE_DIR / 'data' / 'result'
 
+    def __init__(self, source_lang_code: SourceLangsCodes):
+        self._source_lang_code = source_lang_code
 
-def translate_text(
-    text: str, source_file_lang: SourceLangsCodes, target_lang: str
-) -> str:
-    """Translate text from source language to target language using DeepL API."""
-    url = 'https://api-free.deepl.com/v2/translate'
-    params = {
-        'auth_key': settings.DEEPL_API_KEY,
-        'text': text,
-        'source_lang': SOURCE_FILE_2_DEEPL_MAP.get(source_file_lang),
-        'target_lang': target_lang,
-    }
-    response = requests.post(url, data=params)
-    if response.status_code == 200:
-        return response.json()['translations'][0]['text']
-    else:
-        return f'Translation failed with status code {response.status_code}'
+    @classmethod
+    def _translate_text(cls, text: str, source_file_lang: SourceLangsCodes, target_lang: str) -> str:
+        """Translate text from source language to target language using DeepL API."""
+        url = 'https://api-free.deepl.com/v2/translate'
+        params = {
+            'auth_key': settings.DEEPL_API_KEY,
+            'text': text,
+            'source_lang': SOURCE_FILE_2_DEEPL_MAP.get(source_file_lang),
+            'target_lang': target_lang,
+        }
+        response = requests.post(url, data=params)
+        if response.status_code == 200:
+            return response.json()['translations'][0]['text']
+        else:
+            return f'Translation failed with status code {response.status_code}'
 
+    def _load_data(self, file_path: Path) -> Dict:
+        """Load data from a TOML file."""
+        with file_path.open('r', encoding='utf-8') as file:
+            return toml.load(file)
 
-def translate_and_save_to_toml(
-    languages: Dict[str, str],
-    input_file_path: Path,
-    output_file_path: Path,
-    source_lang_code: SourceLangsCodes,
-) -> None:
-    """Load data from TOML, translate and save to another TOML file."""
-    # Load original data
-    with input_file_path.open('r', encoding='utf-8') as file:
-        data = toml.load(file)
+    def _save_data(self, data: Dict, file_path: Path):
+        """Save data to a TOML file."""
+        with file_path.open('w', encoding='utf-8') as toml_file:
+            toml.dump(data, toml_file)
 
-    translations = {}
-    for key, values in data.items():
-        translations[key] = {}
-        for lang_code, lang_name in languages.items():
-            # Translate each term using the source language provided
-            translations[key][lang_code.lower()] = translate_text(
-                text=values[source_lang_code.value],
-                source_file_lang=source_lang_code,
-                target_lang=lang_code,
-            )
+    def translate_and_save_to_toml(self, languages: Dict[str, str]):
+        """Load data, translate and save to another TOML file."""
+        input_file_path = self._source_dir / 'cleanup.toml'
+        output_file_path = self._result_dir / 'translations.toml'
 
-    # Save translations to new TOML file
-    with output_file_path.open('w', encoding='utf-8') as toml_file:
-        toml.dump(translations, toml_file)
+        data = self._load_data(input_file_path)
+        translations = {}
+        for key, values in data.items():
+            translations[key] = {}
+            for lang_code, lang_name in languages.items():
+                translations[key][lang_code.lower()] = self._translate_text(
+                    text=values[self._source_lang_code.value],
+                    source_file_lang=self._source_lang_code,
+                    target_lang=lang_code,
+                )
+
+        self._save_data(translations, output_file_path)
 
 
 if __name__ == '__main__':
-    input_file_path = SOURCE_DIR / 'cleanup.toml'
-    output_file_path = RESULT_DIR / 'translations.toml'
-
-    # Choose the source language code from the original data file
-    source_lang_code = SourceLangsCodes.RUSSIAN
-
-    # Translate and save to TOML file
-    translate_and_save_to_toml(
-        languages=DEEPL_2_SOURCE_FILE_MAP,
-        input_file_path=input_file_path,
-        output_file_path=output_file_path,
-        source_lang_code=source_lang_code,
-    )
+    service = TranslationService(SourceLangsCodes.RUSSIAN)
+    service.translate_and_save_to_toml(DEEPL_2_SOURCE_FILE_MAP)
