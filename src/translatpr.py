@@ -18,8 +18,8 @@ class TranslationService:
     def __init__(self, source_lang_code: SourceLangsCodes):
         self._source_lang_code = source_lang_code
 
-    @classmethod
-    def _translate_text(cls, text: str, source_file_lang: SourceLangsCodes, target_lang: str) -> str:
+    @staticmethod
+    def _translate_text(text: str, source_file_lang: SourceLangsCodes, target_lang: str) -> str:
         """Translate text from source language to target language using DeepL API."""
         url = 'https://api-free.deepl.com/v2/translate'
         params = {
@@ -28,18 +28,20 @@ class TranslationService:
             'source_lang': SOURCE_FILE_2_DEEPL_MAP.get(source_file_lang),
             'target_lang': target_lang,
         }
-        response = requests.post(url, data=params)
+        response = requests.post(url, params=params)
         if response.status_code == 200:
             return response.json()['translations'][0]['text']
         else:
             return f'Translation failed with status code {response.status_code}'
 
-    def _load_data(self, file_path: Path) -> Dict:
+    @staticmethod
+    def _load_data(file_path: Path) -> Dict:
         """Load data from a TOML file."""
         with file_path.open('r', encoding='utf-8') as file:
             return toml.load(file)
 
-    def _save_data(self, data: Dict, file_path: Path):
+    @staticmethod
+    def _save_data(data: Dict, file_path: Path):
         """Save data to a TOML file."""
         with file_path.open('w', encoding='utf-8') as toml_file:
             toml.dump(data, toml_file)
@@ -60,9 +62,10 @@ class TranslationService:
                     target_lang=lang_code,
                 )
 
-        self._save_data(translations, output_file_path)
+        self._save_data(data=translations, file_path=output_file_path)
 
 
 if __name__ == '__main__':
-    service = TranslationService(SourceLangsCodes.RUSSIAN)
-    service.translate_and_save_to_toml(DEEPL_2_SOURCE_FILE_MAP)
+    source_lang_code = SourceLangsCodes.RUSSIAN
+    service = TranslationService(source_lang_code=source_lang_code)
+    service.translate_and_save_to_toml(languages=DEEPL_2_SOURCE_FILE_MAP)
