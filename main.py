@@ -2,7 +2,7 @@ from models.languages import (
     SourceLangsCodes,
     DEEPL_2_SOURCE_FILE_MAP,
 )
-from src.translatpr import TranslationService
+from src.translatpr_toml import TranslationService
 
 
 if __name__ == '__main__':
