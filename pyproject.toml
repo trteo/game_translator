@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "perevodichik-ebeyshey-igry"
+version = "0.1.0"
+description = ""
+authors = ["f.tropin <100.ac@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.9"
+pydantic-settings = "^2.2.1"
+requests = "^2.31.0"
+toml = "^0.10.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

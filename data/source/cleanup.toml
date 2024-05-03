@@ -1,0 +1,55 @@
+[apple]
+eng = "ROTTING APPLE"
+rus = "ГНИЮЩЕЕ ЯБЛОКО"
+[banana]
+eng = "BANANA PEEL"
+rus = "КОЖУРА БАНАНА"
+[chicken]
+eng = "GNAWED CHICKEN"
+rus = "ОБГЛОДАННАЯ НОЖКА"
+[fish]
+eng = "FISH BONES"
+rus = "РЫБНЫЕ КОСТИ"
+[orange]
+eng = "ORANGE PEEL"
+rus = "КОЖУРА АПЕЛЬСИНА"
+[watermelon]
+eng = "WATERMELON RIND"
+rus = "КОЖУРА АРБУЗА"
+[plant]
+eng = "WILTED PLANT"
+rus = "ЖУХЛОЕ РАСТЕНИЕ"
+[bottle]
+eng = "BOTTLE"
+rus = "БУТЫЛКА"
+[glass]
+eng = "GLASS"
+rus = "ОСКОЛОК СТЕКЛА"
+[goblet]
+eng = "GOBLET"
+rus = "БОКАЛ"
+[page]
+eng = "TORN PAGE"
+rus = "ВЫРВАННАЯ СТРАНИЦА"
+[paper]
+eng = "PAPER SCRAP"
+rus = "ОБРЫВОК БУМАГИ"
+[rock]
+eng = "ROCK"
+rus = "КАМУШЕК"
+[scrap]
+eng = "CRUSHED TRASH"
+rus = "МЯТЫЙ МУСОР"
+
+[cleanup_result]
+eng = "CLEANING RESULT"
+rus = "РЕЗУЛЬТАТ УБОРКИ"
+[cleanup_paybasic]
+eng = "BASIC PAY"
+rus = "БАЗОВАЯ ОПЛАТА"
+[cleanup_paysort]
+eng = "BONUS FOR SORTING"
+rus = "БОНУС ЗА СОРТИРОВКУ"
+[cleanup_payspeed]
+eng = "BONUS FOR SPEED"
+rus = "БОНУС ЗА СКОРОСТЬ"
