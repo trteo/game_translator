@@ -81,6 +81,5 @@ class TranslationService:
 
 
 if __name__ == '__main__':
-    source_lang_code = SourceLangsCodes.RUSSIAN
-    service = TranslationService(source_lang_code=source_lang_code)
+    service = TranslationService(source_lang_code=SourceLangsCodes.RUSSIAN)
     service.translate_and_save_to_toml(languages=DEEPL_2_SOURCE_FILE_MAP)
