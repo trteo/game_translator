@@ -1,9 +1,10 @@
-from enum import Enum
 from pathlib import Path
 
 import requests
 import toml
 from typing import Dict
+
+from models.languges import SOURCE_FILE_2_DEEPL_MAP, FileSourceLangs
 from settings.config import settings, BASE_DIR
 
 
@@ -11,24 +12,13 @@ SOURCE_DIR = BASE_DIR / 'data' / 'source'
 RESULT_DIR = BASE_DIR / 'data' / 'result'
 
 
-SOURCE_FILE_2_DEEPL_MAP = {
-    'eng': 'EN',
-    'rus': 'RU',
-}
-
-
-class SourceLangs(Enum):
-    EN = 'EN'
-    RU = 'RU'
-
-
-def translate_text(text: str, source_lang: str, target_lang: str) -> str:
+def translate_text(text: str, source_file_lang: FileSourceLangs, target_lang: str) -> str:
     """Translate text from source language to target language using DeepL API."""
     url = "https://api-free.deepl.com/v2/translate"
     params = {
         "auth_key": settings.DEEPL_API_KEY,
         "text": text,
-        "source_lang": 'EN',
+        "source_lang": SOURCE_FILE_2_DEEPL_MAP.get(source_file_lang).value,
         "target_lang": target_lang
     }
     response = requests.post(url, data=params)
@@ -39,10 +29,10 @@ def translate_text(text: str, source_lang: str, target_lang: str) -> str:
 
 
 def translate_and_save_to_toml(
-        languages: Dict[str, str],
-        input_file_path: Path,
-        output_file_path: Path,
-        source_lang_code: str
+    languages: Dict[str, str],
+    input_file_path: Path,
+    output_file_path: Path,
+    source_lang_code: FileSourceLangs
 ) -> None:
     """Load data from TOML, translate and save to another TOML file."""
     # Load original data
@@ -54,7 +44,7 @@ def translate_and_save_to_toml(
         translations[key] = {}
         for lang_code, lang_name in languages.items():
             # Translate each term using the source language provided
-            translations[key][lang_code.lower()] = translate_text(values[source_lang_code], source_lang_code, lang_code)
+            translations[key][lang_code.lower()] = translate_text(values[source_lang_code.value], source_lang_code, lang_code)
 
     # Save translations to new TOML file
     with output_file_path.open("w", encoding="utf-8") as toml_file:
@@ -76,7 +66,7 @@ if __name__ == "__main__":
     output_file_path = RESULT_DIR / "translations.toml"
 
     # Choose the source language code from the original data file
-    source_lang_code = 'rus'  # You can dynamically set this based on your needs
+    source_lang_code = FileSourceLangs.RUSSIAN
 
     # Translate and save to TOML file
     translate_and_save_to_toml(
