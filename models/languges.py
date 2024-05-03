@@ -15,15 +15,15 @@ class SourceLangsCodes(Enum):
 
 
 class DeeplLangsCodes(Enum):
-    RUSSIAN = "ru"
-    ENGLISH = "en-us"
-    UKRAINE = "uk"
-    SPANISH = "es"
-    PORTUGUESE_BRAZILIAN = "pt-br"
+    RUSSIAN = 'ru'
+    ENGLISH = 'en-us'
+    UKRAINE = 'uk'
+    SPANISH = 'es'
+    PORTUGUESE_BRAZILIAN = 'pt-br'
 
-    GERMAN = "de"
-    ITALIAN = "it"
-    TURKISH = "tr"
+    GERMAN = 'de'
+    ITALIAN = 'it'
+    TURKISH = 'tr'
 
 
 SOURCE_FILE_2_DEEPL_MAP: Dict[SourceLangsCodes, str] = {
@@ -38,7 +38,6 @@ DEEPL_2_SOURCE_FILE_MAP: Dict[str, str] = {
     DeeplLangsCodes.UKRAINE.value: SourceLangsCodes.UKRAINE.value,
     DeeplLangsCodes.SPANISH.value: SourceLangsCodes.SPANISH.value,
     DeeplLangsCodes.PORTUGUESE_BRAZILIAN.value: SourceLangsCodes.PORTUGUESE_BRAZILIAN.value,
-
     DeeplLangsCodes.GERMAN.value: SourceLangsCodes.GERMAN.value,
     DeeplLangsCodes.ITALIAN.value: SourceLangsCodes.ITALIAN.value,
     DeeplLangsCodes.TURKISH.value: SourceLangsCodes.TURKISH.value,
