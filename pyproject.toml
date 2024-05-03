@@ -10,6 +10,8 @@ python = "3.9"
 pydantic-settings = "^2.2.1"
 requests = "^2.31.0"
 toml = "^0.10.2"
+deepl = "^1.18.0"
+urllib3 = "^2.2.1"
 
 
 [build-system]
