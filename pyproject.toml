@@ -13,6 +13,7 @@ toml = "^0.10.2"
 deepl = "^1.18.0"
 urllib3 = "^2.2.1"
 axblack = "^20220330"
+loguru = "^0.7.2"
 
 
 [build-system]
