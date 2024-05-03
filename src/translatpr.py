@@ -6,12 +6,26 @@ from loguru import logger
 
 from models.languages import (
     SOURCE_FILE_2_DEEPL_MAP,
-    SourceLangsCodes,
-    DEEPL_2_SOURCE_FILE_MAP,
+    SourceLangsCodes, DEEPL_2_SOURCE_FILE_MAP,
 )
 from settings.config import settings, BASE_DIR
 
-logger.add(BASE_DIR / "logs/translation_logs.log", rotation="10 MB")
+
+log_dir = BASE_DIR / "logs"
+
+# Ensure the log directory exists.
+log_dir.mkdir(parents=True, exist_ok=True)
+
+# Configure loguru to log to a file within the logs directory.
+logger.add(
+    sink=log_dir / "translation_logs.log",  # Specifies the file path for the log file.
+    rotation="10 MB",  # Specifies the maximum size of the log file before it rotates.
+    retention="10 days",  # Optionally, specify how long to retain old log files.
+    level="DEBUG"  # Specifies the minimum level of log messages to capture.
+)
+
+# Example of using the logger
+logger.info("Logging setup is configured correctly.")
 
 
 class TranslationService:
