@@ -92,8 +92,3 @@ class TranslationService:
 
         self._save_data(data=translations, file_path=output_file_path)
         logger.info("Translation process completed")
-
-
-if __name__ == '__main__':
-    service = TranslationService(source_lang_code=SourceLangsCodes.RUSSIAN)
-    service.translate_and_save_to_toml(languages=DEEPL_2_SOURCE_FILE_MAP)
