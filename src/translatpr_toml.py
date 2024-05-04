@@ -29,10 +29,11 @@ logger.info("Logging setup is configured correctly.")
 
 
 class TranslationService:
-    _source_dir = BASE_DIR / 'data' / 'source'
-    _result_dir = BASE_DIR / 'data' / 'result'
+    _SOURCE_DIR = BASE_DIR / 'data' / 'source'
+    _RESULT_DIR = BASE_DIR / 'data' / 'result'
+    _LANGUAGES = DEEPL_2_SOURCE_FILE_MAP
 
-    def __init__(self, source_lang_code: SourceLangsCodes):
+    def __init__(self, source_lang_code: SourceLangsCodes = SourceLangsCodes.RUSSIAN):
         self._source_lang_code = source_lang_code
         logger.info(f"Translation service initialized for source language: {self._source_lang_code}")
 
@@ -73,17 +74,17 @@ class TranslationService:
             toml.dump(data, toml_file)
         logger.debug("Data saved successfully")
 
-    def translate_and_save_to_toml(self, languages: Dict[str, str]):
+    def translate_and_save_to_toml(self):
         """Load data, translate and save to another TOML file."""
         logger.info("Starting translation process")
-        input_file_path = self._source_dir / 'cleanup.toml'
-        output_file_path = self._result_dir / 'translations.toml'
+        input_file_path = self._SOURCE_DIR / 'cleanup.toml'
+        output_file_path = self._RESULT_DIR / 'translations.toml'
 
         data = self._load_data(input_file_path)
         translations = {}
         for key, values in data.items():
             translations[key] = {}
-            for lang_code, lang_name in languages.items():
+            for lang_code, lang_name in self._LANGUAGES.items():
                 translations[key][lang_code.lower()] = self._translate_text(
                     text=values[self._source_lang_code.value],
                     source_file_lang=self._source_lang_code,
