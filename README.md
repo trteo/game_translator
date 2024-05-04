@@ -24,4 +24,4 @@ poetry install
 3. Запустить `python .\main.py` from project root
 4. In  `main.py` `TranslationService(source_lang_code=...)`  `SourceLangsCodes` can be set to 
 `SourceLangsCodes.RUSSIAN` or `SourceLangsCodes.ENGLISH` to use base translate if you want to chose language.
-5. 
+5. `python .\main.py`
