@@ -76,8 +76,3 @@ class RPYTranslationService:
             return f'{match.group(1)}{self._translate_text(match.group(2), lang_code)}{match.group(3)}\n'
         else:
             return line
-
-
-if __name__ == '__main__':
-    service = RPYTranslationService(source_lang_code='EN')
-    service.translate_and_save_to_rpy(languages=DEEPL_2_SOURCE_FILE_MAP, file_name='test.rpy')
