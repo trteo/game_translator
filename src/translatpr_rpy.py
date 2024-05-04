@@ -4,6 +4,7 @@ import requests
 from typing import Dict, List
 from loguru import logger
 
+from models.languages import DeeplLangsCodes, DEEPL_2_SOURCE_FILE_MAP
 from settings.config import settings, BASE_DIR
 
 log_dir = BASE_DIR / "logs"
@@ -78,6 +79,5 @@ class RPYTranslationService:
 
 
 if __name__ == '__main__':
-    languages = {'ES': 'ES', 'DE': 'DE', 'FR': 'FR'}  # Define the target languages
     service = RPYTranslationService(source_lang_code='EN')
-    service.translate_and_save_to_rpy(languages=languages, file_name='test.rpy')
+    service.translate_and_save_to_rpy(languages=DEEPL_2_SOURCE_FILE_MAP, file_name='test.rpy')
