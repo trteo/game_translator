@@ -1,7 +1,6 @@
 from pathlib import Path
 import requests
-from typing import Dict
-from loguru import logger
+from settings.logger import logger
 from settings.config import settings, BASE_DIR
 
 
