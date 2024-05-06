@@ -30,6 +30,7 @@ class RPYTranslationService:
             'text': text,
             'source_lang': 'EN',  # Assuming source language is always English
             'target_lang': target_lang,
+            'formality': 'prefer_less',
         }
         response = requests.post(url, params=params)
         if response.status_code == 200:
