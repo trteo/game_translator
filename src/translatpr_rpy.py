@@ -70,9 +70,11 @@ class RPYTranslationService:
 
     def _translate_line(self, line: str, lang_code: str) -> str:
         """Check if line needs translation and translate if necessary."""
-        match = re.match(r'(.*m ")(.*)(")', line)
+
+        match = re.match(r'^\s*(\w+\s")(.*)(")', line)
+
         if match:
             logger.debug(f"Found line to translate: {match.group(2)}")
-            return f'{match.group(1)}{self._translate_text(match.group(2), lang_code)}{match.group(3)}\n'
+            return f'\t{match.group(1)}{self._translate_text(match.group(2), lang_code)}{match.group(3)}\n'
         else:
             return line
