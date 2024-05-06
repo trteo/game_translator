@@ -25,6 +25,21 @@ class TranslationMeta:
             f'Translation service initialized for source language: {self._source_lang_code}'
         )
 
+    def translate_and_save(self, file_name: str, output_name: str):
+        logger.info("Starting translation process")
+        input_file_path = self._SOURCE_DIR / file_name
+        output_file_path = self._RESULT_DIR / output_name
+
+        data = self._load_data(input_file_path)
+        translations = self.process_translations(data)
+
+        self._save_data(translations, output_file_path)
+        logger.info("Translation process completed")
+
+    def process_translations(self, data):
+        """Process translation according to the specific rules of the subclass."""
+        raise NotImplementedError("This method should be overridden by subclasses")
+
     @staticmethod
     def _translate_text(text: str, source_lang: str, target_lang: str) -> str:
         """Translate text from source language to target language using DeepL API."""

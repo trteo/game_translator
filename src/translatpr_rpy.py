@@ -15,31 +15,15 @@ class TranslationServiceRPY(TranslationMeta):
     def __init__(self, source_lang_code: SourceLangsCodes = SourceLangsCodes.ENGLISH):
         super().__init__(source_lang_code)
 
-    def translate_and_save_to_rpy(self, file_name: str):
-        """Load RPY, translate and save to language-specific RPY files."""
-        logger.info('Starting RPY translation process')
-        input_file_path = self._SOURCE_DIR / file_name
-        data = self._load_data(input_file_path)
+    def process_translations(self, data):
         source_lang_deepl_format = SOURCE_FILE_2_DEEPL_MAP[self._source_lang_code]
-
-        for (
-            target_lang_deepl_format,
-            source_format_target_lang,
-        ) in DEEPL_2_SOURCE_FILE_MAP.items():
-            if source_lang_deepl_format != target_lang_deepl_format:
-                translated_data = [
-                    self._translate_line(
-                        line, source_lang_deepl_format, target_lang_deepl_format,
-                    )
-                    for line in data
-                ]
-                output_file_path = (
-                    self._RESULT_DIR / f'{source_format_target_lang}__translate.rpy'
-                )
-                self._save_data(translated_data, output_file_path)
-                logger.info(
-                    f'Translation process completed for {source_format_target_lang}'
-                )
+        translations = []
+        for line in data:
+            for target_lang_deepl_format, source_format_target_lang in DEEPL_2_SOURCE_FILE_MAP.items():
+                if source_lang_deepl_format != target_lang_deepl_format:
+                    translated_line = self._translate_line(line, source_lang_deepl_format, target_lang_deepl_format)
+                    translations.append(translated_line)
+        return translations
 
     @staticmethod
     def _load_data(file_path: Path) -> List[str]:
