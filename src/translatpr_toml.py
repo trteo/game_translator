@@ -9,11 +9,14 @@ from models.languages import (
 )
 from base.translate_meta import TranslationMeta
 
+
 class TranslationServiceTOML(TranslationMeta):
     def __init__(self, source_lang_code: SourceLangsCodes = SourceLangsCodes.RUSSIAN):
         super().__init__(source_lang_code=source_lang_code)
 
-    def process_translations(self, data: Dict[str, Dict[str, str]]) -> Dict[str, Dict[str, str]]:
+    def process_translations(
+        self, data: Dict[str, Dict[str, str]]
+    ) -> Dict[str, Dict[str, str]]:
         """Process the translations from the source language to multiple target languages."""
         translations: Dict[str, Dict[str, str]] = {}
         source_lang_deepl_format: str = SOURCE_FILE_2_DEEPL_MAP[self._source_lang_code]
@@ -21,14 +24,19 @@ class TranslationServiceTOML(TranslationMeta):
         for block_header, existing_translations in data.items():
             translations[block_header] = {}
             text_to_translate: str = existing_translations[self._source_lang_code.value]
-            for target_lang_deepl_format, source_format_target_lang in DEEPL_2_SOURCE_FILE_MAP.items():
+            for (
+                target_lang_deepl_format,
+                source_format_target_lang,
+            ) in DEEPL_2_SOURCE_FILE_MAP.items():
                 if source_lang_deepl_format != target_lang_deepl_format:
                     translated_text: str = self._translate_text(
                         text=text_to_translate,
                         source_lang=source_lang_deepl_format,
-                        target_lang=target_lang_deepl_format
+                        target_lang=target_lang_deepl_format,
                     )
-                    translations[block_header][source_format_target_lang.lower()] = translated_text
+                    translations[block_header][
+                        source_format_target_lang.lower()
+                    ] = translated_text
 
         return translations
 
@@ -48,4 +56,3 @@ class TranslationServiceTOML(TranslationMeta):
         with file_path.open('w', encoding='utf-8') as toml_file:
             toml.dump(data, toml_file)
         logger.debug('Data saved successfully')
-

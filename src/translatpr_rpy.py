@@ -20,12 +20,15 @@ class TranslationServiceRPY(TranslationMeta):
         source_lang_deepl_format: str = SOURCE_FILE_2_DEEPL_MAP[self._source_lang_code]
         translations: List[str] = []
         for line in data:
-            for target_lang_deepl_format, source_format_target_lang in DEEPL_2_SOURCE_FILE_MAP.items():
+            for (
+                target_lang_deepl_format,
+                source_format_target_lang,
+            ) in DEEPL_2_SOURCE_FILE_MAP.items():
                 if source_lang_deepl_format != target_lang_deepl_format:
                     translated_line: str = self._translate_line(
                         line=line,
                         source_lang=source_lang_deepl_format,
-                        target_lang=target_lang_deepl_format
+                        target_lang=target_lang_deepl_format,
                     )
                     translations.append(translated_line)
         return translations
@@ -53,9 +56,7 @@ class TranslationServiceRPY(TranslationMeta):
         if match:
             logger.debug(f'Found line to translate: {match.group(2)}')
             translated_text: str = self._translate_text(
-                text=match.group(2),
-                source_lang=source_lang,
-                target_lang=target_lang
+                text=match.group(2), source_lang=source_lang, target_lang=target_lang
             )
             return f'\t{match.group(1)}{translated_text}{match.group(3)}\n'
         else:

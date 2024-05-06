@@ -17,17 +17,20 @@ logger.add(
     level='DEBUG',
 )
 
+
 class TranslationMeta:
     _SOURCE_DIR: Path = BASE_DIR / 'data' / 'source'
     _RESULT_DIR: Path = BASE_DIR / 'data' / 'result'
 
     def __init__(self, source_lang_code: Any):
         self._source_lang_code = source_lang_code
-        logger.info(f'Translation service initialized for source language: {self._source_lang_code}')
+        logger.info(
+            f'Translation service initialized for source language: {self._source_lang_code}'
+        )
 
     def translate_and_save(self, file_name: str, output_name: str) -> None:
         """Orchestrate the process of loading data, processing translations, and saving them."""
-        logger.info("Starting translation process")
+        logger.info('Starting translation process')
         input_file_path: Path = self._SOURCE_DIR / file_name
         output_file_path: Path = self._RESULT_DIR / output_name
 
@@ -35,11 +38,11 @@ class TranslationMeta:
         translations: T = self.process_translations(data=data)
 
         self._save_data(data=translations, file_path=output_file_path)
-        logger.info("Translation process completed")
+        logger.info('Translation process completed')
 
     def process_translations(self, data: T) -> T:
         """Process translation according to the specific rules of the subclass. Should be implemented by each subclass."""
-        raise NotImplementedError("This method should be overridden by subclasses")
+        raise NotImplementedError('This method should be overridden by subclasses')
 
     @staticmethod
     def _translate_text(text: str, source_lang: str, target_lang: str) -> str:
@@ -58,8 +61,12 @@ class TranslationMeta:
             logger.debug(f'Translation successful: {translated_text}')
             return translated_text
         else:
-            error_message: str = response.json().get('message', 'No error message provided')
-            logger.error(f'Translation failed with status code {response.status_code}: {error_message}')
+            error_message: str = response.json().get(
+                'message', 'No error message provided'
+            )
+            logger.error(
+                f'Translation failed with status code {response.status_code}: {error_message}'
+            )
             return f'Translation failed with status code {response.status_code}'
 
     @staticmethod
