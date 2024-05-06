@@ -1,16 +1,12 @@
-from models.languages import (
-    SourceLangsCodes,
-    DEEPL_2_SOURCE_FILE_MAP,
-)
+from models.languages import SourceLangsCodes
 from src.translatpr_rpy import TranslationServiceRPY
 from src.translatpr_toml import TranslationServiceTOML
 
-
 if __name__ == '__main__':
-    service = TranslationServiceTOML(source_lang_code=SourceLangsCodes.ENGLISH)
-    service.translate_and_save_to_toml(file_name='cleanup.toml')
+    # Instantiate and use the TOML translation service
+    toml_service = TranslationServiceTOML(source_lang_code=SourceLangsCodes.ENGLISH)
+    toml_service.translate_and_save(file_name='cleanup.toml', output_name='translations.toml')
 
-#
-if __name__ == '__main__':
-    service = TranslationServiceRPY(source_lang_code=SourceLangsCodes.ENGLISH)
-    service.translate_and_save_to_rpy(file_name='test.rpy')
+    # Instantiate and use the RPY translation service
+    rpy_service = TranslationServiceRPY(source_lang_code=SourceLangsCodes.ENGLISH)
+    rpy_service.translate_and_save(file_name='test.rpy', output_name='translations.rpy')
