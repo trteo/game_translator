@@ -41,7 +41,10 @@ class TranslationMeta:
             logger.debug(f"Translation successful: {translated_text}")
             return translated_text
         else:
-            logger.error(f"Translation failed with status code {response.status_code}")
+            logger.error(
+                f"Translation failed with status code {response.status_code}\n"
+                f"Message: {response.json()['message']}"
+            )
             return f"Translation failed with status code {response.status_code}"
 
     @staticmethod
