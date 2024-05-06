@@ -12,7 +12,7 @@ log_dir.mkdir(parents=True, exist_ok=True)
 logger.add(sink=log_dir / "translation_logs.log", rotation="10 MB", retention="10 days", level="DEBUG")
 
 
-class RPYTranslationService:
+class TranslationServiceRPY:
     _source_dir = BASE_DIR / 'data' / 'source'
     _result_dir = BASE_DIR / 'data' / 'result'
 
