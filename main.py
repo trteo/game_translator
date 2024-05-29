@@ -1,6 +1,6 @@
 from models.languages import SourceLangsCodes
-from src.translatpr_rpy import TranslationServiceRPY
-from src.translatpr_toml import TranslationServiceTOML
+from src.translators.translatpr_rpy import TranslationServiceRPY
+from src.translators.translatpr_toml import TranslationServiceTOML
 
 if __name__ == '__main__':
     # Instantiate and use the TOML translation service
