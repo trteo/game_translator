@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "perevodichik-igry"
+version = "0.1.0"
+description = ""
+authors = ["f.tropin <100.ac@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic-settings = "^2.2.1"
+requests = "^2.31.0"
+toml = "^0.10.2"
+deepl = "^1.18.0"
+urllib3 = "^2.2.1"
+axblack = "^20220330"
+loguru = "^0.7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
