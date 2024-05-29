@@ -1,4 +1,4 @@
-# perevodichik_ebeyshey_igry
+# rpy and toml files translator
 
 ### Requirements
 ```
@@ -25,3 +25,8 @@ poetry install
 4. In  `main.py` `TranslationService(source_lang_code=...)`  `SourceLangsCodes` can be set to 
 `SourceLangsCodes.RUSSIAN` or `SourceLangsCodes.ENGLISH` to use base translate if you want to chose language.
 5. `python .\main.py`
+
+
+Языки для перевода задаются в `models/languages.py` и должны быть согласованы с доступными в deepl
+
+

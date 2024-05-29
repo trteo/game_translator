@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "perevodichik-ebeyshey-igry"
+name = "perevodichik-igry"
 version = "0.1.0"
 description = ""
 authors = ["f.tropin <100.ac@mail.ru>"]
