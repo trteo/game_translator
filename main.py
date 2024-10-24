@@ -2,6 +2,7 @@ from models.languages import SourceLangsCodes
 from src.translators.deepl.translatpr_rpy import DeeplTranslationServiceRPY
 from src.translators.deepl.translatpr_toml import DeeplTranslationServiceTOML
 
+
 if __name__ == '__main__':
     # Instantiate and use the TOML translation service
     toml_service = DeeplTranslationServiceTOML(source_lang_code=SourceLangsCodes.ENGLISH)
