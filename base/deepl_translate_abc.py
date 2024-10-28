@@ -33,6 +33,7 @@ class DeeplTranslationABC(ABC):
         self._save_data(data=translations, file_path=output_file_path)
         logger.info('Translation process completed')
 
+    @abstractmethod
     def process_translations(self, data: T) -> T:
         """
         Process translation according to the specific rules of the subclass.
