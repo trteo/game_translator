@@ -7,10 +7,10 @@ from models.languages import (
     SourceLangsCodes,
     DEEPL_2_SOURCE_FILE_MAP,
 )
-from base.translate_meta import TranslationMeta
+from base.deepl_translate_abc import DeeplTranslationABC
 
 
-class TranslationServiceTOML(TranslationMeta):
+class DeeplTranslationServiceTOML(DeeplTranslationABC):
     def __init__(self, source_lang_code: SourceLangsCodes = SourceLangsCodes.RUSSIAN):
         super().__init__(source_lang_code=source_lang_code)
 
@@ -53,6 +53,7 @@ class TranslationServiceTOML(TranslationMeta):
     def _save_data(data: Dict[str, Any], file_path: Path) -> None:
         """Save data to a TOML file."""
         logger.debug(f'Saving data to {file_path}')
+        file_path.parent.mkdir(parents=True, exist_ok=True)
         with file_path.open('w', encoding='utf-8') as toml_file:
             toml.dump(data, toml_file)
         logger.debug('Data saved successfully')

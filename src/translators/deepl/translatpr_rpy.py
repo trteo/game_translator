@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 from typing import List
 
-from base.translate_meta import TranslationMeta
+from base.deepl_translate_abc import DeeplTranslationABC
 from models.languages import (
     SOURCE_FILE_2_DEEPL_MAP,
     DEEPL_2_SOURCE_FILE_MAP,
@@ -11,7 +11,7 @@ from models.languages import (
 from settings.logger import logger
 
 
-class TranslationServiceRPY(TranslationMeta):
+class DeeplTranslationServiceRPY(DeeplTranslationABC):
     def __init__(self, source_lang_code: SourceLangsCodes = SourceLangsCodes.ENGLISH):
         super().__init__(source_lang_code=source_lang_code)
 
