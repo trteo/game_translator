@@ -1,5 +1,19 @@
 # Game files translator
 
+## Features
+
+A program that translates game files from Russian into a target language using OpenAI API and DeepL API.
+
+## Key Technologies
+* **Pydantic Settings** (^2.2.1) – Application configuration management.
+* **Requests** (^2.31.0) – Integration with the DeepL translator.
+* **OpenAI** (^1.37.0) – Interaction with ChatGPT API.
+
+## Requirements
+python 3.9
+pyenv
+poetry
+
 ### Supported languages
 * Russian
 * English
@@ -10,32 +24,6 @@
 * Italian
 * Turkish
 
-### Supported files types and structures
-
-#### .toml
-``` 
-
-```
-
-#### .rpy
-``` 
-
-```
-
-#### .txt
-``` 
-
-```
-
-
-### Requirements
-```
-ЭВМ
-
-python 3.9
-pyenv
-poetry
-```
 
 ### Requirements install macos
 ```bash
@@ -60,9 +48,11 @@ poetry install
 ```
 
 ### Run
-1. Скопировать `/settings/env.example`в `/settings/env`
-2. Задать значение `DEEPL_API_KEY` вашим ключом для Deepl API
-3. Запустить `python .\main.py` from project root
+1. Copy `/settings/env.example` to `/settings/env`
+2. Set env values:  
+   1. `DEEPL_API_KEY` - for run translation with DeepL API
+   2. `OPENAI_ORG_ID`, `PROJECT_ID`, `CHAT_GPT_API_KEY` - for ChatGPT translation
+3. Run `python .\main.py` from project root
 4. In  `main.py` `TranslationService(source_lang_code=...)`  `SourceLangsCodes` can be set to 
 `SourceLangsCodes.RUSSIAN` or `SourceLangsCodes.ENGLISH` to use base translate if you want to chose language.
 5. `python .\main.py`
@@ -78,3 +68,9 @@ poetry install
 `/settings/` - Переменные окружения, конфигурация логгера \
 `/src/translators/chatgpt/` - Перевод файлов при помощи апи ChatGPT \
 `/src/translators/deepl/` -  Перевод файлов при помощи апи deepl
+
+
+
+##### Разработчик
+Тропин Федор \
+tg: **@fedorTrop**
